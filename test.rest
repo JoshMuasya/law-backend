@@ -1,0 +1,15 @@
+POST http://127.0.0.1:8000/lawyers/register/
+Content-Type: application/json
+
+{ "username": "JohnDoe", "email": "johndoe@gmail.com", "phone_number": "0784557789", "rank": "Lead Accountant", "password": "123456", "password_confirmation": "123456" }
+
+###
+
+POST http://127.0.0.1:8000/lawyers/login/
+Content-Type: application/json
+
+{ "username": "Joshua", "password": "123456" }
+
+###
+GET http://127.0.0.1:8000/lawyers/lawyers/
+Content-Type: application/json
