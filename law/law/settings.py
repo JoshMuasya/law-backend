@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'lawyers',
-    'corsheaders'
+    'corsheaders',
+    'cases'
 ]
 
 MIDDLEWARE = [
@@ -83,7 +84,7 @@ WSGI_APPLICATION = 'law.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lawyer',
+        'NAME': 'lawfirmtest',
         'USER': 'Josh',
         'PASSWORD': 'Joekitemi4132',
         'HOST': 'localhost',
@@ -111,6 +112,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = "lawyers.Lawyers"
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',  # Token-based authentication
+    ),
+}
 
 
 # Internationalization

@@ -6,8 +6,9 @@ from lawyers.serializers import LawyerSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
-from .permissions import IsOwnerOrManager
-from rest_framework.permissions import IsAuthenticated
+from .permissions import IsOwnerOrManager, IsLawyer
+from rest_framework.views import APIView
+from rest_framework.authentication import TokenAuthentication
 
 
 User = get_user_model()
@@ -46,7 +47,8 @@ def login(request):
         # Check if the password is correct
         if not user.check_password(password):
             return Response(
-                {'detail': 'Credentials do not match.'}
+                {'detail': 'Credentials do not match.'},
+                status=status.HTTP_406_NOT_ACCEPTABLE
             )
         
         token, created = Token.objects.get_or_create(user=user)
@@ -57,4 +59,15 @@ def login(request):
 class LawyerListView(generics.ListAPIView):
     queryset = Lawyers.objects.all()
     serializer_class = LawyerSerializer
-    permission_classes = [IsAuthenticated, IsOwnerOrManager]
+    permission_classes = [IsOwnerOrManager]
+    permission_classes = [IsLawyer]
+
+
+class GetUserInfoView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permissions = [IsLawyer, IsOwnerOrManager]
+
+    def get(self, request, *args, **kwargs):
+        user = self.request.user
+        serializer = LawyerSerializer(instance=user)
+        return Response({'user': serializer.data}, status=status.HTTP_200_OK)
