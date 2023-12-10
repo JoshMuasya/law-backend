@@ -18,11 +18,8 @@ class Case(models.Model):
 
 class CaseDateHistory(models.Model):
     case = models.ForeignKey(Case, related_name='date_histories', on_delete=models.CASCADE)
-    hearingDate = models.DateTimeField(null=True, blank=True)
-    judgmentDate = models.DateTimeField(null=True, blank=True)
-    submissionDate = models.DateTimeField(null=True, blank=True)
-    mentionDate = models.DateTimeField(null=True, blank=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
-
+    date_name = models.CharField(max_length=255, default='')
+    date_value = models.DateField(null=True, blank=True)
+    
     def __str__(self):
         return f"Date History for {self.case.caseNo}"
